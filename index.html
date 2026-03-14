@@ -1,93 +1,61 @@
-```html
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Benny's Motor Works</title>
+<title>Benny's Calculator</title>
 
 <style>
 
 body{
-font-family:Arial;
-background:#0f172a;
-color:white;
-margin:0;
-padding:20px;
-}
-
-.logo{
-text-align:center;
-margin-bottom:20px;
-}
-
-.logo h1{
-margin:0;
-font-size:30px;
-}
-
-.logo span{
-color:#ef4444;
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
 .container{
-max-width:600px;
-margin:auto;
+    background:#1e293b;
+    padding:40px;
+    border-radius:15px;
+    width:350px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
 
-.card{
-background:#1e293b;
-border-radius:12px;
-padding:15px;
-margin-bottom:15px;
+h1{
+    margin-bottom:20px;
 }
 
-.card h2{
-margin-top:0;
-font-size:18px;
+input{
+    width:90%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:8px;
+    border:none;
+    font-size:16px;
 }
 
 button{
-width:100%;
-padding:10px;
-margin-top:6px;
-border:none;
-border-radius:8px;
-background:#ef4444;
-color:white;
-cursor:pointer;
+    background:#3b82f6;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
 }
 
 button:hover{
-background:#dc2626;
+    background:#2563eb;
 }
 
-.totalBox{
-background:#020617;
-padding:15px;
-border-radius:12px;
-margin-top:20px;
-}
-
-.total{
-font-size:24px;
-}
-
-.lista{
-font-size:14px;
-margin-top:10px;
-}
-
-.tools{
-display:flex;
-gap:10px;
-margin-top:10px;
-}
-
-.tools button{
-flex:1;
-background:#334155;
+.result{
+    margin-top:20px;
+    font-size:20px;
 }
 
 </style>
@@ -95,135 +63,29 @@ background:#334155;
 
 <body>
 
-<div class="logo">
-<h1>🚗 <span>Benny's</span> Motor Works</h1>
-</div>
-
 <div class="container">
 
-<div class="card">
-<h2>🔧 Reparos</h2>
+<h1>Calculadora</h1>
 
-<button onclick="add('Reparo oficina',10000)">Reparo oficina - $10.000</button>
-<button onclick="add('Reparo Sul',14000)">Reparo chamado Sul - $14.000</button>
-<button onclick="add('Reparo Norte',20000)">Reparo chamado Norte - $20.000</button>
+<input id="num1" placeholder="Número 1">
+<input id="num2" placeholder="Número 2">
 
-</div>
+<br><br>
 
-<div class="card">
-<h2>🎨 Estética</h2>
+<button onclick="somar()">Somar</button>
 
-<button onclick="add('Aerofólio',15000)">Aerofólio</button>
-<button onclick="add('Bancos',15000)">Bancos</button>
-<button onclick="add('Buzina',15000)">Buzina</button>
-<button onclick="add('Capô',15000)">Capô</button>
-<button onclick="add('Escapamento',15000)">Escapamento</button>
-<button onclick="add('Neon',20000)">Neon</button>
-<button onclick="add('Rodas',20000)">Rodas</button>
-<button onclick="add('Xenon',35000)">Xenon</button>
-
-</div>
-
-<div class="card">
-<h2>⚙️ Desempenho</h2>
-
-<button onclick="add('Motor N1',42000)">Motor Nível 1</button>
-<button onclick="add('Motor N2',57000)">Motor Nível 2</button>
-<button onclick="add('Motor N3',72000)">Motor Nível 3</button>
-<button onclick="add('Motor N4',87000)">Motor Nível 4</button>
-
-<button onclick="add('Freio N1',42000)">Freio Nível 1</button>
-<button onclick="add('Freio N2',57000)">Freio Nível 2</button>
-<button onclick="add('Freio N3',72000)">Freio Nível 3</button>
-<button onclick="add('Freio N4',87000)">Freio Nível 4</button>
-
-<button onclick="add('Turbo',45000)">Turbo</button>
-
-</div>
-
-<div class="card">
-<h2>🧱 Blindagem</h2>
-
-<button onclick="add('Blindagem N1',55000)">Nível 1</button>
-<button onclick="add('Blindagem N2',70000)">Nível 2</button>
-<button onclick="add('Blindagem N3',85000)">Nível 3</button>
-<button onclick="add('Blindagem N4',110000)">Nível 4</button>
-<button onclick="add('Blindagem N5',140000)">Nível 5</button>
-
-</div>
-
-<div class="card">
-<h2>💼 Pacote</h2>
-
-<button onclick="add('Full Tuning',280000)">Full Tuning</button>
-</div>
-
-<div class="totalBox">
-
-<div class="total">
-TOTAL: $ <span id="total">0</span>
-</div>
-
-<div class="lista" id="lista"></div>
-
-<div class="tools">
-
-<button onclick="copiar()">📋 Copiar orçamento</button>
-<button onclick="reset()">🧹 Limpar</button>
-
-</div>
-
-</div>
+<div class="result" id="resultado"></div>
 
 </div>
 
 <script>
 
-let total = 0
-let lista = []
+function somar(){
 
-function add(nome,valor){
+let a = Number(document.getElementById("num1").value)
+let b = Number(document.getElementById("num2").value)
 
-total += valor
-
-lista.push(nome+" - $"+valor.toLocaleString())
-
-document.getElementById("total").innerText = total.toLocaleString()
-
-mostrar()
-
-}
-
-function mostrar(){
-
-document.getElementById("lista").innerHTML =
-"<br>"+lista.join("<br>")
-
-}
-
-function reset(){
-
-total=0
-lista=[]
-
-document.getElementById("total").innerText=0
-document.getElementById("lista").innerHTML=""
-
-}
-
-function copiar(){
-
-let texto="🚗 Benny's Motor Works\n\n"
-
-lista.forEach(item=>{
-texto+=item+"\n"
-})
-
-texto+="\nTOTAL: $"+total.toLocaleString()
-
-navigator.clipboard.writeText(texto)
-
-alert("Orçamento copiado!")
+document.getElementById("resultado").innerText = "Resultado: " + (a+b)
 
 }
 
@@ -231,4 +93,3 @@ alert("Orçamento copiado!")
 
 </body>
 </html>
-```
